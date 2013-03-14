@@ -29,7 +29,7 @@ func mockModel() *Model {
 		}
 		for j := 0; j < 10; j++ {
 			argument := Argument {
-				Text: fmt.Sprintf("Argument %d", j),
+				Text: fmt.Sprintf("This is Argument %d in Thesis %d", j, i),
 			}
 			thesis.Arguments = append(thesis.Arguments, argument)
 		}

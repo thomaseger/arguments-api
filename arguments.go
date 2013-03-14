@@ -1,10 +1,10 @@
 package main
 
 import (
+	"arguments/delegate"
 	"flag"
 	"fmt"
 	"log"
-	"arguments/delegate"
 )
 
 func parseCmd() (string, int) {
