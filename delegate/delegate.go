@@ -23,7 +23,7 @@ func serve(address string) {
 }
 
 func jsonify(element interface{}) string {
-	response, error := json.Marshal(core.NewModel())
+	response, error := json.Marshal(element)
 
 	if error != nil {
 		log.Fatal("Error while marshaling data ", error)
