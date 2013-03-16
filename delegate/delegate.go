@@ -7,12 +7,9 @@ import (
 	"arguments/service"
 )
 
-func Serve(address string) {
-	model := core.NewModel()
+func Serve(address string, model *core.Model) {
 	thesesService := service.NewThesesService(model)
-
-	gorest.RegisterService(thesesService)
-
-    http.Handle("/", gorest.Handle())
+	gorest.RegisterService(thesesService)	    
+    http.Handle("/", gorest.Handle())   
     http.ListenAndServe(address, nil)
 }

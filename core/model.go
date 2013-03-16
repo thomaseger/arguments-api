@@ -18,10 +18,10 @@ type Argument struct {
 }
 
 func NewModel() *Model {
-	return mockModel()
+	return NewModelMock()
 }
 
-func mockModel() *Model {
+func NewModelMock() *Model {
 	var model Model
 	for i := 0; i < 10; i++ {
 		thesis := Thesis{

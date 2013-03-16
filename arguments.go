@@ -2,6 +2,7 @@ package main
 
 import (
 	"arguments/delegate"
+	"arguments/core"
 	"flag"
 	"fmt"
 	"log"
@@ -19,5 +20,7 @@ func main() {
 	address := fmt.Sprintf("%s:%d", host, port)
 
 	log.Print("Running arguments! on ", address)
-	delegate.Serve(address)
+
+	model := core.NewModel();
+	delegate.Serve(address, model)
 }
