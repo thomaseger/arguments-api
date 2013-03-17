@@ -5,13 +5,19 @@ import (
 	"arguments/core"
 )
 
-func TestTheses(t *testing.T) {
-	service := NewThesesService(core.NewModelMock())
-	if service == nil {
-		t.Errorf("service was nil")
+func setUp(t *testing.T) *ThesesService {
+	s := NewThesesService(core.NewModelMock())
+	if s == nil {
+		t.Errorf("s was nil")
 	}
+	s.Testing = true
+	return s
+}
 
-	if length := len(service.Theses()); length != 10 {
-		t.Errorf("expected length 10 but was %d", length)	
+func TestTheses(t *testing.T) {	
+	s := setUp(t)
+	expected := 10
+	if length := len(s.Theses()); length != expected {
+		t.Errorf("expected length %d but was %d", expected, length)	
 	}
 }

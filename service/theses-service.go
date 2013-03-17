@@ -3,9 +3,12 @@ package service
 import (
 	"code.google.com/p/gorest"
 	"arguments/core"
+	"log"
 )
 
 type ThesesService struct {
+	Testing bool
+
 	model *core.Model
 
 	gorest.RestService `root:"/api" consumes:"application/json" produces:"application/json"`
@@ -25,21 +28,28 @@ func NewThesesService(m *core.Model) *ThesesService {
 }
 
 func (service ThesesService) Theses() []core.Thesis {
+	service.prepareResponse()
 	return service.model.Theses
 } 
 
 func (service ThesesService) Thesis(thesisId int) core.Thesis {
+	service.prepareResponse()
 	return service.model.Theses[thesisId]
 }
 
 func (service ThesesService) Arguments(thesisId int) []core.Argument {
+	service.prepareResponse()
 	return service.model.Theses[thesisId].Arguments
 }
 
 func (service ThesesService) Argument(thesisId, argumentId int) core.Argument {
+	service.prepareResponse()
 	return service.model.Theses[thesisId].Arguments[argumentId]
 }
 
-func (service ThesesService) SetHeader(key, value string) {
-	service.ResponseBuilder().SetHeader(key, value)
+func (service ThesesService) prepareResponse() {
+	if(!service.Testing) {
+		log.Printf("Received request.")
+		service.RB().SetHeader("Access-Control-Allow-Origin", "*")
+	}
 }
