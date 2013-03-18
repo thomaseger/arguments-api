@@ -7,8 +7,6 @@ import (
 )
 
 type ThesesService struct {
-	Testing bool
-
 	model *core.Model
 
 	gorest.RestService `root:"/api" consumes:"application/json" produces:"application/json"`
@@ -48,8 +46,6 @@ func (service ThesesService) Argument(thesisId, argumentId int) core.Argument {
 }
 
 func (service ThesesService) prepareResponse() {
-	if(!service.Testing) {
-		log.Printf("Received request.")
-		service.RB().SetHeader("Access-Control-Allow-Origin", "*")
-	}
+	log.Printf("Received request.")
+	service.RB().SetHeader("Access-Control-Allow-Origin", "*")
 }
