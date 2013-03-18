@@ -11,7 +11,6 @@ type ThesesService struct {
 
 	gorest.RestService `root:"/api" consumes:"application/json" produces:"application/json"`
 
-	//GET Endpoints
 	theses gorest.EndPoint `method:"GET" path:"/theses" output:"[]Thesis"`
 	thesis gorest.EndPoint `method:"GET" path:"/theses/{thesisId:int}" output:"Thesis"`
 	arguments gorest.EndPoint `method:"GET" path:"/theses/{thesisId:int}/arguments" output:"[]Argument"`
