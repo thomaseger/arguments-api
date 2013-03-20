@@ -1,18 +1,18 @@
 package main
 
 import (
-	"arguments/service"
 	"arguments/core"
+	"arguments/service"
 	"code.google.com/p/gorest"
-	"net/http"
 	"flag"
 	"fmt"
 	"log"
+	"net/http"
 )
 
 type Arguments struct {
 	address string
-	model *core.Model
+	model   *core.Model
 }
 
 func (a *Arguments) parseCmd() {
@@ -27,15 +27,15 @@ func (a *Arguments) serve() {
 	a.model = core.NewModel()
 
 	thesesService := service.NewThesesService(a.model)
-	gorest.RegisterService(thesesService)	    
-    
-    http.Handle("/", gorest.Handle())
+	gorest.RegisterService(thesesService)
 
-    log.Print("Running arguments! on ", a.address)   
-    error := http.ListenAndServe(a.address, nil)
-    if(error != nil) {
-    	log.Fatal("Error while serving: ", error)
-    }
+	http.Handle("/", gorest.Handle())
+
+	log.Print("Running arguments! on ", a.address)
+	error := http.ListenAndServe(a.address, nil)
+	if error != nil {
+		log.Fatal("Error while serving: ", error)
+	}
 }
 
 func main() {

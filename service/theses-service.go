@@ -1,8 +1,8 @@
 package service
 
 import (
-	"code.google.com/p/gorest"
 	"arguments/core"
+	"code.google.com/p/gorest"
 	"log"
 )
 
@@ -11,14 +11,14 @@ type ThesesService struct {
 
 	gorest.RestService `root:"/api" consumes:"application/json" produces:"application/json"`
 
-	theses gorest.EndPoint `method:"GET" path:"/theses" output:"[]Thesis"`
-	thesis gorest.EndPoint `method:"GET" path:"/theses/{thesisId:int}" output:"Thesis"`
+	theses    gorest.EndPoint `method:"GET" path:"/theses" output:"[]Thesis"`
+	thesis    gorest.EndPoint `method:"GET" path:"/theses/{thesisId:int}" output:"Thesis"`
 	arguments gorest.EndPoint `method:"GET" path:"/theses/{thesisId:int}/arguments" output:"[]Argument"`
-	argument gorest.EndPoint `method:"GET" path:"/theses/{thesisId:int}/arguments/{argumentId:int}" output:"Argument"`
+	argument  gorest.EndPoint `method:"GET" path:"/theses/{thesisId:int}/arguments/{argumentId:int}" output:"Argument"`
 }
 
 func NewThesesService(m *core.Model) *ThesesService {
-	service := ThesesService {
+	service := ThesesService{
 		model: m,
 	}
 	return &service
@@ -27,7 +27,7 @@ func NewThesesService(m *core.Model) *ThesesService {
 func (service ThesesService) Theses() []core.Thesis {
 	service.prepareResponse()
 	return service.model.Theses
-} 
+}
 
 func (service ThesesService) Thesis(thesisId int) core.Thesis {
 	service.prepareResponse()

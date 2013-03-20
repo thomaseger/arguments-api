@@ -1,31 +1,31 @@
 package service
 
 import (
-	"testing"
-	"net/http"
-	"io/ioutil"
-	"code.google.com/p/gorest"
 	"arguments/core"
+	"code.google.com/p/gorest"
+	"io/ioutil"
+	"net/http"
+	"testing"
 )
 
 const (
 	PortSuffix = ":4040"
-	BaseUrl = "http://localhost" + PortSuffix
-	ApiUrl = BaseUrl + "/api"
+	BaseUrl    = "http://localhost" + PortSuffix
+	ApiUrl     = BaseUrl + "/api"
 )
 
 func TestInit(t *testing.T) {
 	thesesService := NewThesesService(core.NewModelMock())
-	gorest.RegisterService(thesesService)	    
-    http.Handle("/", gorest.Handle())
+	gorest.RegisterService(thesesService)
+	http.Handle("/", gorest.Handle())
 	go http.ListenAndServe(PortSuffix, nil)
 }
 
-func TestTheses(t *testing.T) {	
+func TestTheses(t *testing.T) {
 	var target []core.Thesis
 	err := get(t, "/theses", &target)
 
-	if(err != nil) {
+	if err != nil {
 		t.Errorf("Error during test: ", err)
 		return
 	}
@@ -42,9 +42,9 @@ func get(t *testing.T, path string, target interface{}) error {
 		t.Errorf("Error during GET: ", getError)
 		return getError
 	}
-	
+
 	bytes, readError := ioutil.ReadAll(resp.Body)
-	if(readError != nil) {
+	if readError != nil {
 		t.Errorf("Error reading body: ", readError)
 		return readError
 	}
