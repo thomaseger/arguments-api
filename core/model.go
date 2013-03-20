@@ -3,6 +3,7 @@ package core
 import "fmt"
 
 type Model struct {
+	dao    *DAO
 	Theses []Thesis
 }
 
