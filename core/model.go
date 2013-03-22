@@ -7,21 +7,18 @@ type Model struct {
 	Theses []Thesis
 }
 
-type Thesis struct {
-	Id        string
-	Text      string
-	Arguments []Argument
+func (m Model) SetDAO(dao *DAO) {
+	m.dao = dao
 }
 
-type Argument struct {
-	Id               string
-	Text             string
-	Votes            int32
-	CounterArguments []Argument
+func (m Model) AddThesis(t Thesis) {
+	m.Theses = append(m.Theses, t)
+	id := (*m.dao).Create(t)
+	t.Id = id
 }
 
 func NewModel() *Model {
-	return NewModelMock()
+	return NewMockModel()
 }
 
 func NewMySQLModel() *Model {
@@ -30,8 +27,14 @@ func NewMySQLModel() *Model {
 	return nil
 }
 
-func NewModelMock() *Model {
+func NewMockModel() *Model {
 	var model Model
+	var mock DAO
+
+	mock = MockDAO{}
+
+	model.SetDAO(&mock)
+	
 	for i := 0; i < 10; i++ {
 		thesis := Thesis{
 			Text: fmt.Sprintf("Thesis %d", i),
@@ -45,4 +48,17 @@ func NewModelMock() *Model {
 		model.Theses = append(model.Theses, thesis)
 	}
 	return &model
+}
+
+type Thesis struct {
+	Id        string
+	Text      string
+	Arguments []Argument
+}
+
+type Argument struct {
+	Id               string
+	Text             string
+	Votes            int32
+	CounterArguments []Argument
 }

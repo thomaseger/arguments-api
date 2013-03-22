@@ -21,18 +21,18 @@ func NewMySQLDAO(database, user, password string) *MySQLDAO {
 	return dao
 }
 
-func Create(value interface{}) string {
+func (m MySQLDAO) Create(value interface{}) string {
 	return ""
 }
 
-func Read(id string) interface{} {
+func (m MySQLDAO) Read(id string) interface{} {
 	return nil
 }
 
-func Update(id string, value interface{}) {
+func (m MySQLDAO) Update(id string, value interface{}) {
 
 }
 
-func Delete(id string) {
+func (m MySQLDAO) Delete(id string) {
 
 }

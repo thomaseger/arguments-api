@@ -15,6 +15,8 @@ type ThesesService struct {
 	thesis    gorest.EndPoint `method:"GET" path:"/theses/{thesisId:int}" output:"Thesis"`
 	arguments gorest.EndPoint `method:"GET" path:"/theses/{thesisId:int}/arguments" output:"[]Argument"`
 	argument  gorest.EndPoint `method:"GET" path:"/theses/{thesisId:int}/arguments/{argumentId:int}" output:"Argument"`
+
+	addThesis gorest.EndPoint `method:"POST" path:"/theses/add/{Text:string}" postdata:"Thesis"`
 }
 
 func NewThesesService(m *core.Model) *ThesesService {
@@ -44,7 +46,15 @@ func (service ThesesService) Argument(thesisId, argumentId int) core.Argument {
 	return service.model.Theses[thesisId].Arguments[argumentId]
 }
 
+func (s ThesesService) AddThesis(t core.Thesis, Text string) {
+	s.model.AddThesis(t)
+}
+
 func (service ThesesService) prepareResponse() {
 	log.Printf("Received request.")
 	service.RB().SetHeader("Access-Control-Allow-Origin", "*")
+}
+
+func (s ThesesService) Model() *core.Model {
+	return s.model
 }
