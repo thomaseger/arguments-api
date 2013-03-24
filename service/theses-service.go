@@ -16,7 +16,7 @@ type ThesesService struct {
 	arguments gorest.EndPoint `method:"GET" path:"/theses/{thesisId:int}/arguments" output:"[]Argument"`
 	argument  gorest.EndPoint `method:"GET" path:"/theses/{thesisId:int}/arguments/{argumentId:int}" output:"Argument"`
 
-	addThesis gorest.EndPoint `method:"POST" path:"/theses/add/{Text:string}" postdata:"Thesis"`
+	//addThesis gorest.EndPoint `method:"POST" path:"/theses/add/{Text:string}" postdata:"Thesis"`
 }
 
 func NewThesesService(m *core.Model) *ThesesService {
