@@ -21,14 +21,16 @@ func (m Model) AddThesis(t Thesis) {
 	t.Id = id
 }
 
-func NewModel() *Model {
-	return NewMockModel()
+func (m Model) FindThesis(id string) Thesis {
+	return (*m.dao).Read(id).(Thesis)
 }
 
-func NewMySQLModel() *Model {
-	//Use a mysqldao to access data and 
-	//create initial model
-	return nil
+func (m Model) FindArgument(thesisId, argumentId string) Argument {
+	return (*m.dao).Read(argumentId).(Argument)
+}
+
+func NewModel() *Model {
+	return NewMockModel()
 }
 
 func NewMockModel() *Model {
@@ -52,7 +54,7 @@ func NewMockModel() *Model {
 func NewGeneratedMockModel() *Model {
 	var model Model
 	var mock DAO
-	mock = MockDAO{}
+	mock = NewMockDAO()
 	model.SetDAO(&mock)
 
 	rand.Seed(time.Now().UTC().UnixNano())
@@ -67,8 +69,10 @@ func NewGeneratedMockModel() *Model {
 				Votes: rand.Intn(1234),
 				Contra: (rand.Intn(2) % 2 == 0),
 			}
+			mock.Create(argument)
 			thesis.Arguments = append(thesis.Arguments, argument)
 		}
+		mock.Create(thesis)
 		model.Theses = append(model.Theses, thesis)
 	}
 	return &model
@@ -79,7 +83,6 @@ func randomString (l int ) string {
 	start := rand.Intn(500)
     return text[start:start + l]
 }
-
 
 type Thesis struct {
 	Id        string
