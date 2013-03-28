@@ -3,6 +3,7 @@ package core
 import (
 	"fmt"
 	"time"
+	"strconv"
 	"math/rand"
 )
 
@@ -22,11 +23,14 @@ func (m Model) AddThesis(t Thesis) {
 }
 
 func (m Model) FindThesis(id string) Thesis {
-	return (*m.dao).Read(id).(Thesis)
+	index, _ := strconv.Atoi(id)
+	return m.Theses[index]
 }
 
 func (m Model) FindArgument(thesisId, argumentId string) Argument {
-	return (*m.dao).Read(argumentId).(Argument)
+	thesisIndex, _ := strconv.Atoi(thesisId)
+	argumentIndex, _ := strconv.Atoi(argumentId)
+	return m.Theses[thesisIndex].Arguments[argumentIndex]
 }
 
 func NewModel() *Model {
@@ -60,11 +64,15 @@ func NewGeneratedMockModel() *Model {
 	rand.Seed(time.Now().UTC().UnixNano())
 	
 	for i := 0; i < 10; i++ {
+		id := strconv.Itoa(i)
 		thesis := Thesis{
+			Id: id,
 			Text: fmt.Sprintf("Thesis %d", i),
 		}
 		for j := 0; j < 1 + rand.Intn(9); j++ {
+			id := strconv.Itoa(j)
 			argument := Argument { 
+				Id: id,
 				Text: randomString(100 + rand.Intn(900)),
 				Votes: rand.Intn(1234),
 				Contra: (rand.Intn(2) % 2 == 0),
