@@ -2,6 +2,7 @@ package service
 
 import (
 	"arguments/core"
+	"arguments/resting"
 	"code.google.com/p/gorest"
 	"io/ioutil"
 	"net/http"
@@ -26,7 +27,7 @@ func TestInit(t *testing.T) {
 
 func TestTheses(t *testing.T) {
 	var target []core.Thesis
-	err := get(t, "/theses", &target)
+	err := get(t, ApiUrl + "/theses", &target)
 
 	if err != nil {
 		t.Errorf("Error during test: ", err)
@@ -41,7 +42,7 @@ func TestTheses(t *testing.T) {
 
 func TestAddTheses(t *testing.T) {
 	lengthBefore := len(model.Theses)
-	post(t, "/theses/add/ThisIsATest.")
+	post(t, ApiUrl + "/theses/add/ThisIsATest.")
 	lengthAfter := len(model.Theses)
 
 	if lengthAfter != (lengthBefore + 1) {
@@ -60,13 +61,9 @@ func post(t *testing.T, path string) error {
 }
 
 func get(t *testing.T, path string, target interface{}) error {
-	resp, getError := http.Get(ApiUrl + path)
-	if getError != nil {
-		t.Errorf("Error during GET: ", getError)
-		return getError
-	}
+	body := resting.GetResource(t, path)
 
-	bytes, readError := ioutil.ReadAll(resp.Body)
+	bytes, readError := ioutil.ReadAll(body)
 	if readError != nil {
 		t.Errorf("Error reading body: ", readError)
 		return readError
