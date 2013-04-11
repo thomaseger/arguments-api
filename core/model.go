@@ -2,9 +2,9 @@ package core
 
 import (
 	"fmt"
-	"time"
-	"strconv"
 	"math/rand"
+	"strconv"
+	"time"
 )
 
 type Model struct {
@@ -60,20 +60,20 @@ func NewGeneratedMockModel() *Model {
 	model.SetDAO(&mock)
 
 	rand.Seed(time.Now().UTC().UnixNano())
-	
+
 	for i := 0; i < 10; i++ {
 		id := strconv.Itoa(i)
 		thesis := Thesis{
-			Id: id,
+			Id:   id,
 			Text: fmt.Sprintf("Thesis %d", i),
 		}
-		for j := 0; j < 1 + rand.Intn(9); j++ {
+		for j := 0; j < 1+rand.Intn(9); j++ {
 			id := strconv.Itoa(j)
-			argument := Argument { 
-				Id: id,
-				Text: randomString(100 + rand.Intn(900)),
-				Votes: rand.Intn(1234),
-				Contra: (rand.Intn(2) % 2 == 0),
+			argument := Argument{
+				Id:     id,
+				Text:   randomString(100 + rand.Intn(900)),
+				Votes:  rand.Intn(1234),
+				Contra: (rand.Intn(2)%2 == 0),
 			}
 			mock.Create(argument)
 			thesis.Arguments = append(thesis.Arguments, argument)
@@ -84,10 +84,10 @@ func NewGeneratedMockModel() *Model {
 	return &model
 }
 
-func randomString (l int ) string {
+func randomString(l int) string {
 	text := "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer."
 	start := rand.Intn(500)
-    return text[start:start + l]
+	return text[start : start+l]
 }
 
 type Thesis struct {
@@ -100,6 +100,6 @@ type Argument struct {
 	Id               string
 	Text             string
 	Votes            int
-	Contra 			 bool
+	Contra           bool
 	CounterArguments []Argument
 }

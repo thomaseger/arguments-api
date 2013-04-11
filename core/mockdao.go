@@ -7,14 +7,14 @@ import (
 )
 
 type MockDAO struct {
-	index int
-	thesisStore map[string] Thesis
-	argumentStore map[string] Argument
+	index         int
+	thesisStore   map[string]Thesis
+	argumentStore map[string]Argument
 }
 
 func NewMockDAO() *MockDAO {
-	m := MockDAO {
-		thesisStore: make(map[string]Thesis),
+	m := MockDAO{
+		thesisStore:   make(map[string]Thesis),
 		argumentStore: make(map[string]Argument),
 	}
 	return &m

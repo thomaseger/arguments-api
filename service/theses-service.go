@@ -11,12 +11,12 @@ type ThesesService struct {
 
 	gorest.RestService `root:"/api" consumes:"application/json" produces:"application/json"`
 
-	theses    gorest.EndPoint `method:"GET" path:"/theses" output:"[]Thesis"`
-	thesis    gorest.EndPoint `method:"GET" path:"/theses/{thesisId:string}" output:"Thesis"`
-	addThesis gorest.EndPoint `method:"POST" path:"/theses" postdata:"Thesis"`
-
-	arguments gorest.EndPoint `method:"GET" path:"/theses/{thesisId:string}/arguments" output:"[]Argument"`
-	argument  gorest.EndPoint `method:"GET" path:"/theses/{thesisId:string}/arguments/{argumentId:string}" output:"Argument"`
+	theses      gorest.EndPoint `method:"GET" path:"/theses" output:"[]Thesis"`
+	thesis      gorest.EndPoint `method:"GET" path:"/theses/{thesisId:string}" output:"Thesis"`
+	thesesCount gorest.Endpoint `method:"GET" path:"/theses/count" output:"int"`
+	addThesis   gorest.EndPoint `method:"POST" path:"/theses" postdata:"Thesis"`
+	arguments   gorest.EndPoint `method:"GET" path:"/theses/{thesisId:string}/arguments" output:"[]Argument"`
+	argument    gorest.EndPoint `method:"GET" path:"/theses/{thesisId:string}/arguments/{argumentId:string}" output:"Argument"`
 }
 
 func NewThesesService(m *core.Model) *ThesesService {

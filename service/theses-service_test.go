@@ -3,10 +3,10 @@ package service
 import (
 	"arguments/core"
 	"arguments/resting"
+	"bytes"
 	"code.google.com/p/gorest"
 	"io"
 	"io/ioutil"
-	"bytes"
 	"net/http"
 	"testing"
 )
@@ -29,8 +29,8 @@ func TestInit(t *testing.T) {
 
 func TestTheses(t *testing.T) {
 	var target []core.Thesis
-	
-	get(t, ApiUrl + "/theses", &target)
+
+	get(t, ApiUrl+"/theses", &target)
 
 	expected := 10
 	if length := len(target); length != expected {
@@ -40,8 +40,8 @@ func TestTheses(t *testing.T) {
 
 func TestAddTheses(t *testing.T) {
 	lengthBefore := len(model.Theses)
-	
-	thesis := core.Thesis {
+
+	thesis := core.Thesis{
 		Text: "Test Thesis.",
 	}
 
@@ -54,17 +54,17 @@ func TestAddTheses(t *testing.T) {
 
 	reader := bytes.NewReader(target)
 
-	post(t, ApiUrl + "/theses", "application/json", reader, target)
+	post(t, ApiUrl+"/theses", "application/json", reader, target)
 	lengthAfter := len(model.Theses)
 
 	if lengthAfter != (lengthBefore + 1) {
-		t.Errorf("Add new thesis failed. Expected length is %d, actual it was %d.", lengthBefore + 1, lengthAfter)
+		t.Errorf("Add new thesis failed. Expected length is %d, actual it was %d.", lengthBefore+1, lengthAfter)
 	}
 }
 
 func post(t *testing.T, url string, mime string, reader io.Reader, target interface{}) {
 	body := resting.PostResource(t, url, mime, reader)
-	
+
 	_, readError := ioutil.ReadAll(body)
 	if readError != nil {
 		t.Errorf("Error reading body: ", readError)
