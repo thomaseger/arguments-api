@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"testing"
+	"log"
 )
 
 const (
@@ -20,6 +21,8 @@ const (
 var model *core.Model
 
 func TestInit(t *testing.T) {
+	logTestRun("TestInit")
+
 	thesesService := NewThesesService(core.NewMockModel())
 	model = thesesService.Model()
 	gorest.RegisterService(thesesService)
@@ -28,6 +31,8 @@ func TestInit(t *testing.T) {
 }
 
 func TestTheses(t *testing.T) {
+	logTestRun("TestTheses")
+
 	var target []core.Thesis
 
 	get(t, ApiUrl+"/theses", &target)
@@ -38,7 +43,20 @@ func TestTheses(t *testing.T) {
 	}
 }
 
+func TestThesesCount(t *testing.T) {
+	logTestRun("TestThesesCount")
+
+	var count int
+	get(t, ApiUrl+"/theses/count", &count)
+	expected := 10
+	if count != expected {
+		t.Errorf("Expect %d theses but was %d", expected, count)
+	}
+}
+
 func TestAddTheses(t *testing.T) {
+	logTestRun("TestAddTheses")
+
 	lengthBefore := len(model.Theses)
 
 	thesis := core.Thesis{
@@ -84,4 +102,8 @@ func get(t *testing.T, url string, target interface{}) {
 	if unmarshalError != nil {
 		t.Errorf("Error unmarshaling bytes: ", unmarshalError)
 	}
+}
+
+func logTestRun(name string) {
+	log.Print("Running " + name)
 }

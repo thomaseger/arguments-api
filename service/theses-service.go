@@ -13,7 +13,7 @@ type ThesesService struct {
 
 	theses      gorest.EndPoint `method:"GET" path:"/theses" output:"[]Thesis"`
 	thesis      gorest.EndPoint `method:"GET" path:"/theses/{thesisId:string}" output:"Thesis"`
-	thesesCount gorest.Endpoint `method:"GET" path:"/theses/count" output:"int"`
+	thesesCount gorest.EndPoint `method:"GET" path:"/theses/count" output:"int"`
 	addThesis   gorest.EndPoint `method:"POST" path:"/theses" postdata:"Thesis"`
 	arguments   gorest.EndPoint `method:"GET" path:"/theses/{thesisId:string}/arguments" output:"[]Argument"`
 	argument    gorest.EndPoint `method:"GET" path:"/theses/{thesisId:string}/arguments/{argumentId:string}" output:"Argument"`
@@ -29,6 +29,11 @@ func NewThesesService(m *core.Model) *ThesesService {
 func (service ThesesService) Theses() []core.Thesis {
 	service.prepareResponse()
 	return service.model.Theses
+}
+
+func (service ThesesService) ThesesCount() int {
+	service.prepareResponse()
+	return len(service.model.Theses)
 }
 
 func (service ThesesService) Thesis(thesisId string) core.Thesis {
