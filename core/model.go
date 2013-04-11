@@ -18,8 +18,6 @@ func (m Model) SetDAO(dao *DAO) {
 
 func (m Model) AddThesis(t Thesis) {
 	m.Theses = append(m.Theses, t)
-	id := (*m.dao).Create(t)
-	t.Id = id
 }
 
 func (m Model) FindThesis(id string) Thesis {

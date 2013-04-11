@@ -29,12 +29,12 @@ func (m MockDAO) Create(value interface{}) string {
 	case Thesis:
 		id := newId("t", m.index)
 		m.thesisStore[id] = value.(Thesis)
-		log.Print("Added thesis ", id)
+		//log.Print("Added thesis ", id)
 		return id
 	case Argument:
 		id := newId("a", m.index)
 		m.argumentStore[id] = value.(Argument)
-		log.Print("Added argument ", id)
+		//log.Print("Added argument ", id)
 		return id
 	default:
 		log.Fatalf("Can not handle type ", t)

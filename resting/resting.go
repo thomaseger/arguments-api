@@ -24,12 +24,16 @@ func GetResource(t *testing.T, url string) io.ReadCloser {
 	return response.Body
 }
 
-func PutResource(t *testing.T, url string) {
-
+func PostResource(t *testing.T, url string, mime string, data io.Reader) io.ReadCloser {
+	urlSyntaxError(t, url)
+	response, err := http.Post(url, mime, data)
+	methodError(t, POST, err)
+	statusCodeError(t, response.StatusCode, []int{200, 201, 202})
+	return response.Body
 }
 
-func PostResource(t *testing.T, url string) {
-	
+func PutResource(t *testing.T, url string) {
+
 }
 
 func DeleteResource(t *testing.T, url string) {

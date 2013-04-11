@@ -4,7 +4,9 @@ import (
 	"arguments/core"
 	"arguments/resting"
 	"code.google.com/p/gorest"
+	"io"
 	"io/ioutil"
+	"bytes"
 	"net/http"
 	"testing"
 )
@@ -27,12 +29,8 @@ func TestInit(t *testing.T) {
 
 func TestTheses(t *testing.T) {
 	var target []core.Thesis
-	err := get(t, ApiUrl + "/theses", &target)
-
-	if err != nil {
-		t.Errorf("Error during test: ", err)
-		return
-	}
+	
+	get(t, ApiUrl + "/theses", &target)
 
 	expected := 10
 	if length := len(target); length != expected {
@@ -42,7 +40,21 @@ func TestTheses(t *testing.T) {
 
 func TestAddTheses(t *testing.T) {
 	lengthBefore := len(model.Theses)
-	post(t, ApiUrl + "/theses/add/ThisIsATest.")
+	
+	thesis := core.Thesis {
+		Text: "Test Thesis.",
+	}
+
+	marshaller := gorest.NewJSONMarshaller()
+	target, marshalError := marshaller.Marshal(thesis)
+
+	if marshalError != nil {
+		t.Errorf("Error unmarshaling bytes: ", marshalError)
+	}
+
+	reader := bytes.NewReader(target)
+
+	post(t, ApiUrl + "/theses", "application/json", reader, target)
 	lengthAfter := len(model.Theses)
 
 	if lengthAfter != (lengthBefore + 1) {
@@ -50,31 +62,26 @@ func TestAddTheses(t *testing.T) {
 	}
 }
 
-func post(t *testing.T, path string) error {
-	_, postError := http.Post(ApiUrl + path, "", nil)
-	if postError != nil {
-		t.Errorf("Error during POST: ", postError)
-		return postError
+func post(t *testing.T, url string, mime string, reader io.Reader, target interface{}) {
+	body := resting.PostResource(t, url, mime, reader)
+	
+	_, readError := ioutil.ReadAll(body)
+	if readError != nil {
+		t.Errorf("Error reading body: ", readError)
 	}
-
-	return nil
 }
 
-func get(t *testing.T, path string, target interface{}) error {
-	body := resting.GetResource(t, path)
+func get(t *testing.T, url string, target interface{}) {
+	body := resting.GetResource(t, url)
 
 	bytes, readError := ioutil.ReadAll(body)
 	if readError != nil {
 		t.Errorf("Error reading body: ", readError)
-		return readError
 	}
 
 	marshaller := gorest.NewJSONMarshaller()
 	unmarshalError := marshaller.Unmarshal(bytes, target)
 	if unmarshalError != nil {
 		t.Errorf("Error unmarshaling bytes: ", unmarshalError)
-		return unmarshalError
 	}
-
-	return nil
 }
