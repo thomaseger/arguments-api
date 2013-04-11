@@ -7,9 +7,9 @@ import (
 	"code.google.com/p/gorest"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"testing"
-	"log"
 )
 
 const (
@@ -46,8 +46,7 @@ func TestTheses(t *testing.T) {
 func TestThesesCount(t *testing.T) {
 	logTestRun("TestThesesCount")
 
-	var count int
-	get(t, ApiUrl+"/theses/count", &count)
+	count := thesesCount(t)
 	expected := 10
 	if count != expected {
 		t.Errorf("Expect %d theses but was %d", expected, count)
@@ -57,7 +56,7 @@ func TestThesesCount(t *testing.T) {
 func TestAddTheses(t *testing.T) {
 	logTestRun("TestAddTheses")
 
-	lengthBefore := len(model.Theses)
+	lengthBefore := thesesCount(t)
 
 	thesis := core.Thesis{
 		Text: "Test Thesis.",
@@ -73,11 +72,18 @@ func TestAddTheses(t *testing.T) {
 	reader := bytes.NewReader(target)
 
 	post(t, ApiUrl+"/theses", "application/json", reader, target)
-	lengthAfter := len(model.Theses)
+
+	lengthAfter := thesesCount(t)
 
 	if lengthAfter != (lengthBefore + 1) {
 		t.Errorf("Add new thesis failed. Expected length is %d, actual it was %d.", lengthBefore+1, lengthAfter)
 	}
+}
+
+func thesesCount(t *testing.T) int {
+	var count int
+	get(t, ApiUrl+"/theses/count", &count)
+	return count
 }
 
 func post(t *testing.T, url string, mime string, reader io.Reader, target interface{}) {
