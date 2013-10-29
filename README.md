@@ -1,1 +1,1 @@
-The arguments-api.
+Arguments is a platform to discuss.
