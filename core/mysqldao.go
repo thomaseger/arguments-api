@@ -2,7 +2,6 @@ package core
 
 import (
 	"database/sql"
-	_ "github.com/ziutek/mymysql/godrv"
 	"log"
 )
 

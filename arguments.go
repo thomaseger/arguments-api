@@ -1,8 +1,8 @@
 package main
 
 import (
-	"arguments/core"
-	"arguments/service"
+	"github.com/thomaseger/arguments-api/core"
+	"github.com/thomaseger/arguments-api/service"
 	"code.google.com/p/gorest"
 	"flag"
 	"fmt"

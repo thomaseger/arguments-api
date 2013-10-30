@@ -1,8 +1,8 @@
 package service
 
 import (
-	"arguments/core"
-	"arguments/resting"
+	"github.com/thomaseger/arguments-api/core"
+	"github.com/thomaseger/arguments-api/resting"
 	"bytes"
 	"code.google.com/p/gorest"
 	"io"

@@ -1,7 +1,7 @@
 package service
 
 import (
-	"arguments/core"
+	"github.com/thomaseger/arguments-api/core"
 	"code.google.com/p/gorest"
 	"log"
 )
